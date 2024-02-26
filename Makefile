@@ -6,7 +6,7 @@
 #    By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 02:18:15 by dande-je          #+#    #+#              #
-#    Updated: 2024/02/26 02:48:24 by dande-je         ###   ########.fr        #
+#    Updated: 2024/02/26 03:02:15 by dande-je         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,6 +104,7 @@ define create_dir
 endef
 
 define submodule_update_libft
+	$(RM) $(LIBFT_DIR)
 	printf "$(PURPLE)Building library Libft\n$(RESET)"
 	git submodule update --init --recursive >/dev/null 2>&1 || true
 	git submodule foreach -q --recursive \
