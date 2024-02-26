@@ -1,0 +1,11 @@
+*.swp
+*.o
+*.out
+*.d
+tovog/
+.vscode
+client
+server
+client_bonus
+server_bonus
+valgrind-out.txt
