@@ -6,7 +6,7 @@
 #    By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 02:18:15 by dande-je          #+#    #+#              #
-#    Updated: 2024/02/26 03:02:15 by dande-je         ###   ########.fr        #
+#    Updated: 2024/02/27 05:43:41 by dande-je         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,23 +50,27 @@ SLEEP                           := sleep 0.01
 #******************************************************************************#
 
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
+LIBS                            := ./lib/42_libft/libft.a
 
-NAME_CLIENT                     = client
 NAME_SERVER                     = server
+NAME_CLIENT                     = client
 
-SRCS_CLIENT_FILES               += $(addprefix $(SRCS_MAIN_DIR), client.c)
 SRCS_SERVER_FILES               += $(addprefix $(SRCS_MAIN_DIR), server.c)
+SRCS_CLIENT_FILES               += $(addprefix $(SRCS_MAIN_DIR), client.c)
 
-OBJS_CLIENT                     += $(SRCS_CLIENT_FILES:%.c=$(BUILD_DIR)%.o)
 OBJS_SERVER                     += $(SRCS_SERVER_FILES:%.c=$(BUILD_DIR)%.o)
+OBJS_CLIENT                     += $(SRCS_CLIENT_FILES:%.c=$(BUILD_DIR)%.o)
 
-DEPS                            := $(OBJS:.o=.d)
+DEPS                            += $(OBJS_CLIENT:.o=.d)
+DEPS                            += $(OBJS_SERVER:.o=.d)
 
 #******************************************************************************#
 #                               OUTPUTS MESSAGES                               #
 #******************************************************************************#
 
 COUNT                           = 0
+OBJS_COUNT                      = 0
+MATH                            = 0
 CLEAN_MESSAGE                   := Server objects deleted\nClient objects deleted
 FCLEAN_MESSAGE                  := Server deleted\nClient deleted
 EXE_SERVER_MESSAGE              = $(RESET)[100%%] $(GREEN)Built target server
@@ -85,7 +89,8 @@ LFLAGS                         := -march=native
 LDFLAGS                        := $(addprefix -L,$(dir $(LIBS)))
 LDLIBS                         := -lft -ldl
 COMPILE_OBJS                   = $(CC) $(CFLAGS) $(LFLAGS) $(CPPFLAGS) -c $< -o $@
-COMPILE_EXE                    = $(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
+COMPILE_EXE_SERVER             = $(CC) $(LDFLAGS) $(OBJS_SERVER) $(LDLIBS) -o $(NAME_SERVER)
+COMPILE_EXE_CLIENT             = $(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(NAME_CLIENT)
 
 #******************************************************************************#
 #                                   DEFINE                                     #
@@ -120,14 +125,21 @@ endef
 define comp_objs
 	$(eval COUNT=$(shell expr $(COUNT) + 1))
 	$(COMPILE_OBJS)
-	$(SLEEP)
-	printf "[%3d%%] $(YELLOW)$(COMP_MESSAGE) $@ \r$(RESET)\n" $$(echo $$(($(COUNT) * 100 / $(words $(OBJS)))))
+	$(eval MATH=$(shell expr "$(COUNT)" \* 100 \/ "$(OBJS_COUNT)"))
+	$(eval MATH=$(shell if [ $(COUNT) -lt 1 ]; then echo $(shell expr "$(MATH)" + 100) ; else echo $(MATH) ; fi))
+	printf "[%3d%%] $(YELLOW)$(COMP_MESSAGE) $@ \r$(RESET)\n" $$(echo $(MATH))
 endef
 
-define comp_exe
-	$(COMPILE_EXE)
+define comp_exe_server
+	$(COMPILE_EXE_SERVER)
 	$(SLEEP)
-	printf "$(EXE_MESSAGE)\n$(RESET)"
+	printf "$(EXE_SERVER_MESSAGE)\n$(RESET)"
+endef
+
+define comp_exe_client
+	$(COMPILE_EXE_CLIENT)
+	$(SLEEP)
+	printf "$(EXE_CLIENT_MESSAGE)\n$(RESET)"
 endef
 
 define clean
@@ -149,21 +161,31 @@ define debug
 	$(MAKE) WITH_DEBUG=TRUE
 endef
 
+define reset_count_server
+	$(eval COUNT=$(1))
+	$(eval OBJS_COUNT=$(words $(SRCS_SERVER_FILES)))
+endef
+
+define reset_count_client
+	$(eval COUNT=$(1))
+	$(eval OBJS_COUNT=$(words $(SRCS_CLIENT_FILES)))
+endef
+
 #******************************************************************************#
 #                                   TARGETS                                    #
 #******************************************************************************#
 
-all: $(LIBFT) $(NAME_SERVER) $(NAME_CLIENT)
+all: | $(LIBFT) $(NAME_SERVER) $(NAME_CLIENT)
 
 $(BUILD_DIR)%.o: %.c
 	$(call create_dir)
 	$(call comp_objs)
 
-$(NAME_SERVER): $(OBJS_SERVER)
-	$(call comp_exe)
+$(NAME_SERVER): $(call reset_count_server, $(words $(OBJS_SERVER))) $(OBJS_SERVER)
+	$(call comp_exe_server)
 
-$(NAME_CLIENT): $(OBJS_CLIENT)
-	$(call comp_exe)
+$(NAME_CLIENT): $(NAME_SERVER) | $(call reset_count_client, -$(words $(OBJS_SERVER))) $(OBJS_CLIENT)
+	$(call comp_exe_client)
 
 $(LIBFT):
 	$(call submodule_update_libft)

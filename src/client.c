@@ -6,11 +6,14 @@
 /*   By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:14:31 by dande-je          #+#    #+#             */
-/*   Updated: 2024/02/26 02:50:53 by dande-je         ###   ########.fr       */
+/*   Updated: 2024/02/26 04:24:32 by dande-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "client.h"
+
 int	main(void)
 {
-	return (0);
+	ft_putstr_fd("\033[0;31mClient", STDERR_FILENO);
+	exit(EXIT_SUCCESS);
 }
