@@ -1,5 +1,4 @@
 *.swp
-*commands.json
 *.o
 *.out
 *.d
@@ -10,3 +9,5 @@ server
 client_bonus
 server_bonus
 valgrind-out.txt
+*commands.json
+.cache/
