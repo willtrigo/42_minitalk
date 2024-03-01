@@ -6,7 +6,7 @@
 #    By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 02:18:15 by dande-je          #+#    #+#              #
-#    Updated: 2024/02/27 05:43:41 by dande-je         ###   ########.fr        #
+#    Updated: 2024/02/28 19:28:08 by dande-je         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -175,7 +175,7 @@ endef
 #                                   TARGETS                                    #
 #******************************************************************************#
 
-all: | $(LIBFT) $(NAME_SERVER) $(NAME_CLIENT)
+all: $(LIBFT) $(NAME_SERVER) $(NAME_CLIENT)
 
 $(BUILD_DIR)%.o: %.c
 	$(call create_dir)
