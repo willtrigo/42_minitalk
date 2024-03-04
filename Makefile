@@ -6,7 +6,7 @@
 #    By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 02:18:15 by dande-je          #+#    #+#              #
-#    Updated: 2024/03/04 01:20:30 by dande-je         ###   ########.fr        #
+#    Updated: 2024/03/04 02:50:37 by dande-je         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,9 @@ RESET                           := \033[0m
 #                                   PATH                                       #
 #******************************************************************************#
 
-SRCS_CLIENT_DIR                 := src/client/
-SRCS_SERVER_DIR                 := src/server/
-INCS                            := src/client/ src/server/ lib/42_libft/include/
+SRCS_CLIENT_DIR                 := src/src_client/
+SRCS_SERVER_DIR                 := src/src_server/
+INCS                            := src/src_client/ src/src_server/ lib/42_libft/include/
 BUILD_DIR                       := build/
 LIBFT_DIR                       := lib/42_libft/
 
