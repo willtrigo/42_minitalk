@@ -6,7 +6,7 @@
 #    By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 02:18:15 by dande-je          #+#    #+#              #
-#    Updated: 2024/03/04 02:50:37 by dande-je         ###   ########.fr        #
+#    Updated: 2024/03/04 19:49:25 by dande-je         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,11 @@ RESET                           := \033[0m
 #                                   PATH                                       #
 #******************************************************************************#
 
-SRCS_CLIENT_DIR                 := src/src_client/
 SRCS_SERVER_DIR                 := src/src_server/
-INCS                            := src/src_client/ src/src_server/ lib/42_libft/include/
+SRCS_CLIENT_DIR                 := src/src_client/
+SRCS_SERVER_BONUS_DIR           := bonus/src_server/
+SRCS_CLIENT_BONUS_DIR           := bonus/src_client/
+INCS                            := src/src_server/ src/src_client/ bonus/src_server/ bonus/src_client lib/42_libft/include/
 BUILD_DIR                       := build/
 LIBFT_DIR                       := lib/42_libft/
 
@@ -56,14 +58,26 @@ LIBS                            := ./lib/42_libft/libft.a
 NAME_SERVER                     = server
 NAME_CLIENT                     = client
 
+NAME_SERVER_BONUS               = server_bonus
+NAME_CLIENT_BONUS               = client_bonus
+
 SRCS_SERVER_FILES               += $(addprefix $(SRCS_SERVER_DIR), ft_server.c)
 SRCS_CLIENT_FILES               += $(addprefix $(SRCS_CLIENT_DIR), ft_client.c \
 	ft_signal.c \
 	ft_utils.c \
 	ft_validation.c)
 
+SRCS_SERVER_BONUS_FILES         += $(addprefix $(SRCS_SERVER_BONUS_DIR), ft_server_bonus.c)
+SRCS_CLIENT_BONUS_FILES         += $(addprefix $(SRCS_CLIENT_BONUS_DIR), ft_client_bonus.c \
+	ft_signal_bonus.c \
+	ft_utils_bonus.c \
+	ft_validation_bonus.c)
+
 OBJS_SERVER                     += $(SRCS_SERVER_FILES:%.c=$(BUILD_DIR)%.o)
 OBJS_CLIENT                     += $(SRCS_CLIENT_FILES:%.c=$(BUILD_DIR)%.o)
+
+OBJS_SERVER_BONUS               += $(SRCS_SERVER_BONUS_FILES:%.c=$(BUILD_DIR)%.o)
+OBJS_CLIENT_BONUS               += $(SRCS_CLIENT_BONUS_FILES:%.c=$(BUILD_DIR)%.o)
 
 DEPS                            += $(OBJS_CLIENT:.o=.d)
 DEPS                            += $(OBJS_SERVER:.o=.d)
@@ -79,7 +93,10 @@ CLEAN_MESSAGE                   := Server objects deleted\nClient objects delete
 FCLEAN_MESSAGE                  := Server deleted\nClient deleted
 EXE_SERVER_MESSAGE              = $(RESET)[100%%] $(GREEN)Built target server
 EXE_CLIENT_MESSAGE              = $(RESET)[100%%] $(GREEN)Built target client
+EXE_SERVER_BONUS_MESSAGE        = [100%%] $(GREEN)Built target server_bonus
+EXE_CLIENT_BONUS_MESSAGE        = [100%%] $(GREEN)Built target client_bonus
 COMP_MESSAGE                    = Building C object
+COMP_BONUS_MESSAGE              = $(CYAN)[BONUS]$(RESET) $(YELLOW)Building C object
 
 #******************************************************************************#
 #                               COMPILATION                                    #
@@ -101,7 +118,19 @@ COMPILE_EXE_CLIENT             = $(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(
 #******************************************************************************#
 
 ifdef WITH_DEBUG
-	CFLAGS += $(DFLAGS)
+	CFLAGS                     += $(DFLAGS)
+endif
+
+ifdef WITH_BONUS
+	NAME_SERVER                = $(NAME_SERVER_BONUS)
+	NAME_CLIENT                = $(NAME_CLIENT_BONUS)
+	OBJS_SERVER                = $(OBJS_SERVER_BONUS)
+	OBJS_SERVER                = $(OBJS_SERVER_BONUS)
+	OBJS_CLIENT                = $(OBJS_CLIENT_BONUS)
+	OBJS_CLIENT                = $(OBJS_CLIENT_BONUS)
+	COMP_MESSAGE               = $(COMP_BONUS_MESSAGE)
+	EXE_SERVER_MESSAGE         = $(EXE_SERVER_BONUS_MESSAGE)
+	EXE_CLIENT_MESSAGE         = $(EXE_CLIENT_BONUS_MESSAGE)
 endif
 
 #******************************************************************************#
@@ -124,6 +153,10 @@ define submodule_update_libft
 		>/dev/null 2>&1 || true
 	$(SLEEP)
 	$(MAKE) -C $(LIBFT_DIR)
+endef
+
+define bonus
+	$(MAKE) WITH_BONUS=TRUE
 endef
 
 define comp_objs
@@ -194,6 +227,9 @@ $(NAME_CLIENT): $(NAME_SERVER) | $(call reset_count_client, -$(words $(OBJS_SERV
 $(LIBFT):
 	$(call submodule_update_libft)
 
+bonus:
+	$(call bonus)
+
 clean:
 	$(call clean)
 
@@ -205,7 +241,7 @@ re: fclean all
 debug:
 	$(call debug)
 
-.PHONY: all clean fclean re debug
+.PHONY: all clean fclean re debug bonus
 .DEFAULT_GOAL := all
 .SILENT:
 
