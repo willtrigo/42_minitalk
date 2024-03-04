@@ -6,7 +6,7 @@
 #    By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 02:18:15 by dande-je          #+#    #+#              #
-#    Updated: 2024/02/28 19:28:08 by dande-je         ###   ########.fr        #
+#    Updated: 2024/03/04 01:20:30 by dande-je         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,9 @@ RESET                           := \033[0m
 #                                   PATH                                       #
 #******************************************************************************#
 
-SRCS_MAIN_DIR                   := src/
-INCS                            := src/ lib/42_libft/include/
+SRCS_CLIENT_DIR                 := src/client/
+SRCS_SERVER_DIR                 := src/server/
+INCS                            := src/client/ src/server/ lib/42_libft/include/
 BUILD_DIR                       := build/
 LIBFT_DIR                       := lib/42_libft/
 
@@ -55,8 +56,11 @@ LIBS                            := ./lib/42_libft/libft.a
 NAME_SERVER                     = server
 NAME_CLIENT                     = client
 
-SRCS_SERVER_FILES               += $(addprefix $(SRCS_MAIN_DIR), server.c)
-SRCS_CLIENT_FILES               += $(addprefix $(SRCS_MAIN_DIR), client.c)
+SRCS_SERVER_FILES               += $(addprefix $(SRCS_SERVER_DIR), ft_server.c)
+SRCS_CLIENT_FILES               += $(addprefix $(SRCS_CLIENT_DIR), ft_client.c \
+	ft_signal.c \
+	ft_utils.c \
+	ft_validation.c)
 
 OBJS_SERVER                     += $(SRCS_SERVER_FILES:%.c=$(BUILD_DIR)%.o)
 OBJS_CLIENT                     += $(SRCS_CLIENT_FILES:%.c=$(BUILD_DIR)%.o)
