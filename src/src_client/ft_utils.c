@@ -6,13 +6,13 @@
 /*   By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 00:08:59 by dande-je          #+#    #+#             */
-/*   Updated: 2024/03/04 02:38:35 by dande-je         ###   ########.fr       */
+/*   Updated: 2024/03/04 19:50:26 by dande-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "ft_client.h"
 #include "ft_non_standard/ft_non_standard.h"
+#include "ft_client.h"
 #include "ft_signal.h"
 
 static void	ft_msg_head(int server_pid);
