@@ -6,13 +6,12 @@
 /*   By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 01:06:57 by dande-je          #+#    #+#             */
-/*   Updated: 2024/03/04 19:47:53 by dande-je         ###   ########.fr       */
+/*   Updated: 2024/03/13 03:22:48 by dande-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "ft_non_standard/ft_non_standard.h"
 #include "ft_string.h"
 #include "ft_client_bonus.h"
 #include "ft_utils_bonus.h"
@@ -30,6 +29,7 @@ void	ft_signal(int server_pid, char *msg)
 	if (sigaction(SIGUSR1, &client_action, NULL) == CLIENT_FAIL \
 		|| sigaction(SIGUSR2, &client_action, NULL) == CLIENT_FAIL)
 		ft_handle_msg_error("Client signal fail to start.\n");
+	ft_putstr_fd("\033[0;36mSending message.\n\033[0m", STDOUT_FILENO);
 	ft_handle_msg(server_pid, msg);
 }
 

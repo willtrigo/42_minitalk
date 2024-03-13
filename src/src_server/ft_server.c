@@ -6,12 +6,13 @@
 /*   By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:14:37 by dande-je          #+#    #+#             */
-/*   Updated: 2024/03/04 02:43:20 by dande-je         ###   ########.fr       */
+/*   Updated: 2024/03/13 03:16:30 by dande-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <signal.h>
 #include <unistd.h>
+#include "ft_non_standard/ft_non_standard.h"
 #include "ft_string.h"
 #include "ft_server.h"
 
@@ -45,9 +46,7 @@ static void	ft_handler_action(int signal, siginfo_t *info, \
 
 	receive_bit++;
 	if (signal == SIGUSR2)
-	{
 		chr |= BIT;
-	}
 	if (receive_bit == BYTE_SIZE)
 	{
 		write(STDOUT_FILENO, &chr, BIT);

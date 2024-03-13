@@ -6,11 +6,12 @@
 /*   By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 00:08:59 by dande-je          #+#    #+#             */
-/*   Updated: 2024/03/04 19:47:30 by dande-je         ###   ########.fr       */
+/*   Updated: 2024/03/13 03:24:31 by dande-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 #include "ft_non_standard/ft_non_standard.h"
 #include "ft_client_bonus.h"
 #include "ft_signal_bonus.h"
@@ -29,6 +30,7 @@ void	ft_handle_msg(int server_pid, char *msg)
 {
 	ft_msg_head(server_pid);
 	ft_msg_body(server_pid, msg);
+	ft_putstr_fd("\033[0;36mMessage delivered.\033[0m\n", STDOUT_FILENO);
 }
 
 static void	ft_msg_head(int server_pid)

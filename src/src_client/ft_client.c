@@ -6,15 +6,14 @@
 /*   By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 02:14:31 by dande-je          #+#    #+#             */
-/*   Updated: 2024/03/04 01:26:15 by dande-je         ###   ########.fr       */
+/*   Updated: 2024/03/13 03:28:16 by dande-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <unistd.h>
 #include "ft_client.h"
-#include "ft_signal.h"
 #include "ft_validation.h"
+#include "ft_signal.h"
 
 int	main(int argc, char **argv)
 {
