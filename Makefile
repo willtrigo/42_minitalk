@@ -6,7 +6,7 @@
 #    By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/26 02:18:15 by dande-je          #+#    #+#              #
-#    Updated: 2024/03/04 19:49:25 by dande-je         ###   ########.fr        #
+#    Updated: 2024/03/13 03:09:26 by dande-je         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 #                                REQUIREMENTS                                  #
 #******************************************************************************#
 
-LIBFT_VERSION                   := 2.4.8
+LIBFT_VERSION                   := 3.0.0
 
 #******************************************************************************#
 #                                   COLOR                                      #
@@ -183,11 +183,11 @@ define clean
 	$(RM) $(BUILD_DIR)
 	$(MAKE) fclean -C $(LIBFT_DIR)
 	$(SLEEP)
-	printf "$(RED)$(CLEAN_MESSAGE)\n$(RESET)"
+	printf "$(RED)$(CLEAN_MESSAGE)$(RESET)\n"
 endef
 
 define fclean
-	$(RM) $(NAME_SERVER) $(NAME_CLIENT)
+	$(RM) $(NAME_SERVER) $(NAME_CLIENT) $(NAME_SERVER_BONUS) $(NAME_CLIENT_BONUS)
 	$(SLEEP)
 	printf "$(RED)$(FCLEAN_MESSAGE)$(RESET)\n"
 endef
@@ -212,16 +212,16 @@ endef
 #                                   TARGETS                                    #
 #******************************************************************************#
 
-all: $(LIBFT) $(NAME_SERVER) $(NAME_CLIENT)
+all: $(NAME_SERVER) $(NAME_CLIENT)
 
 $(BUILD_DIR)%.o: %.c
 	$(call create_dir)
 	$(call comp_objs)
 
-$(NAME_SERVER): $(call reset_count_server, $(words $(OBJS_SERVER))) $(OBJS_SERVER)
+$(NAME_SERVER): $(LIBFT) $(call reset_count_server, $(words $(OBJS_SERVER))) $(OBJS_SERVER)
 	$(call comp_exe_server)
 
-$(NAME_CLIENT): $(NAME_SERVER) | $(call reset_count_client, -$(words $(OBJS_SERVER))) $(OBJS_CLIENT)
+$(NAME_CLIENT): $(LIBFT) $(call reset_count_client, -$(words $(OBJS_SERVER))) $(OBJS_CLIENT)
 	$(call comp_exe_client)
 
 $(LIBFT):
