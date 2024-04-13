@@ -6,7 +6,7 @@
 /*   By: dande-je <dande-je@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/04 01:06:57 by dande-je          #+#    #+#             */
-/*   Updated: 2024/03/13 03:26:48 by dande-je         ###   ########.fr       */
+/*   Updated: 2024/04/13 10:49:27 by dande-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "ft_string.h"
 #include "ft_client.h"
 #include "ft_utils.h"
-
 
 static void	ft_handler_action(int signal);
 static int	ft_handshake(int value, int check);
